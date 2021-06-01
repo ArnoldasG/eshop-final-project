@@ -1,0 +1,75 @@
+Index: src/main/java/lt/finalproject/eshop/controllers/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/lt/finalproject/eshop/controllers/UserController.java b/src/main/java/lt/finalproject/eshop/controllers/UserController.java
+new file mode 100644
+--- /dev/null	(date 1622553765366)
++++ b/src/main/java/lt/finalproject/eshop/controllers/UserController.java	(date 1622553765366)
+@@ -0,0 +1,30 @@
++package lt.finalproject.eshop.controllers;
++
++
++import lt.finalproject.eshop.dto.User;
++import lt.finalproject.eshop.repo.UserRepository;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.List;
++
++@RestController
++@CrossOrigin(origins = "http://localhost:4200")
++public class UserController {
++
++    private final UserRepository userRepository;
++
++    public UserController(UserRepository userRepository) {
++        this.userRepository = userRepository;
++    }
++
++    @GetMapping("/users")
++    public List<User> getUsers() {
++        return (List<User>) userRepository.findAll();
++        // I have a question about (List<User>)
++    }
++
++    @PostMapping("users")
++    void addUser(@RequestBody User user) {
++        userRepository.save(user);
++    }
++}
+Index: src/main/java/lt/finalproject/eshop/repo/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/lt/finalproject/eshop/repo/UserRepository.java b/src/main/java/lt/finalproject/eshop/repo/UserRepository.java
+new file mode 100644
+--- /dev/null	(date 1622553765363)
++++ b/src/main/java/lt/finalproject/eshop/repo/UserRepository.java	(date 1622553765363)
+@@ -0,0 +1,10 @@
++package lt.finalproject.eshop.repo;
++
++import lt.finalproject.eshop.dto.User;
++import org.springframework.data.repository.CrudRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface UserRepository extends CrudRepository<User, Long> {
++
++}
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># eshop-final-project\nSoftware Development Academy Final Project\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 06b3945e6c7ff4d26fdc2d8a3bb4363748163bd2)
++++ b/README.md	(date 1622547803000)
+@@ -1,2 +1,1 @@
+-# eshop-final-project
+-Software Development Academy Final Project
++# FinalProjectSDAElectronics
+\ No newline at end of file

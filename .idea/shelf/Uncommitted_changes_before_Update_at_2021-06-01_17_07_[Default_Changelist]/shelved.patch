@@ -1,0 +1,142 @@
+Index: src/main/java/lt/finalproject/eshop/dto/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/lt/finalproject/eshop/dto/User.java b/src/main/java/lt/finalproject/eshop/dto/User.java
+new file mode 100644
+--- /dev/null	(date 1622555997371)
++++ b/src/main/java/lt/finalproject/eshop/dto/User.java	(date 1622555997371)
+@@ -0,0 +1,58 @@
++package lt.finalproject.eshop.dto;
++
++import lombok.NoArgsConstructor;
++
++import javax.persistence.Entity;
++import javax.persistence.GeneratedValue;
++import javax.persistence.GenerationType;
++import javax.persistence.Id;
++
++@Entity
++@NoArgsConstructor
++public class User {
++
++    @Id
++    @GeneratedValue(strategy = GenerationType.AUTO)
++    private long id;
++    private String name;
++    private String email;
++
++    public User(String name, String email) {
++        this.name = name;
++        this.email = email;
++    }
++
++    public long getId() {
++        return id;
++    }
++
++    public void setId(long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public String getEmail() {
++        return email;
++    }
++
++    public void setEmail(String email) {
++        this.email = email;
++    }
++
++    @Override
++    public String toString() {
++        return "User{" +
++                "id=" + id +
++                ", name='" + name + '\'' +
++                ", email='" + email + '\'' +
++                '}';
++    }
++}
++
+Index: src/main/java/lt/finalproject/eshop/repo/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/lt/finalproject/eshop/repo/UserRepository.java b/src/main/java/lt/finalproject/eshop/repo/UserRepository.java
+new file mode 100644
+--- /dev/null	(date 1622556210059)
++++ b/src/main/java/lt/finalproject/eshop/repo/UserRepository.java	(date 1622556210059)
+@@ -0,0 +1,9 @@
++package lt.finalproject.eshop.repo;
++
++import lt.finalproject.eshop.dto.User;
++import org.springframework.data.repository.CrudRepository;
++import org.springframework.stereotype.Repository;
++
++@Repository
++public interface UserRepository extends CrudRepository<User, Long> {
++}
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># eshop-final-project\nSoftware Development Academy Final Project\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 06b3945e6c7ff4d26fdc2d8a3bb4363748163bd2)
++++ b/README.md	(date 1622553980663)
+@@ -1,2 +1,1 @@
+-# eshop-final-project
+-Software Development Academy Final Project
++# FinalProjectSDAElectronics
+Index: src/main/java/lt/finalproject/eshop/controllers/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/lt/finalproject/eshop/controllers/UserController.java b/src/main/java/lt/finalproject/eshop/controllers/UserController.java
+new file mode 100644
+--- /dev/null	(date 1622556210055)
++++ b/src/main/java/lt/finalproject/eshop/controllers/UserController.java	(date 1622556210055)
+@@ -0,0 +1,31 @@
++package lt.finalproject.eshop.controllers;
++
++
++import lt.finalproject.eshop.dto.User;
++import lt.finalproject.eshop.repo.UserRepository;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.List;
++
++@RestController
++@CrossOrigin(origins = "http://localhost:4200")
++public class UserController {
++
++    private final UserRepository userRepository;
++
++    @Autowired
++    public UserController(UserRepository userRepository) {
++        this.userRepository = userRepository;
++    }
++
++    @GetMapping("/users")
++    public List<User> getUsers() {
++        return (List<User>) userRepository.findAll();
++    }
++
++    @PostMapping("/users")
++    void addUser(@RequestBody User user) {
++        userRepository.save(user);
++    }
++}
